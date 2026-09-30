@@ -1,0 +1,20 @@
+// 总览页：把设备、报警、执行机构和实时曲线组合成现场工作台。
+import {Activity,ArrowUpRight,Flame,ShieldCheck,Wifi,Wind,Thermometer,Radio} from 'lucide-react';
+import {Badge,Chart,Empty,fmt,Panel} from '../components';
+import type {Snapshot,Sample,Page} from '../types';
+
+export function Overview({data,samples,navigate}:{data:Snapshot;samples:Sample[];navigate:(page:Page)=>void}){
+ const device=data.devices[0];
+ const current=device?.latest||{};
+ const metrics=[{label:'燃气相对指标',value:current.gas,unit:'/ 100',icon:Wind,color:'green',threshold:data.rules.gas_threshold},
+  {label:'烟雾相对指标',value:current.smoke,unit:'/ 100',icon:Activity,color:'amber',threshold:data.rules.smoke_threshold},
+  {label:'环境温度',value:current.temperature,unit:'°C',icon:Thermometer,color:'blue',threshold:data.rules.temperature_threshold},
+  {label:'火焰信号',value:current.flame?'检出':'未检出',unit:'',icon:Flame,color:'rose',threshold:null}];
+ return <>
+  <div className="overview-banner"><div><div className="eyebrow">KITCHEN SAFETY MONITORING</div><h2>让每一次异常，都有迹可循。</h2><p>实时监测、现场保护与事件追溯，在一个工作台中完成。</p></div><div className="banner-status"><ShieldCheck size={34}/><div><strong>{data.stats.active_alarms?`${data.stats.active_alarms} 项异常待关注`:'监测平台运行中'}</strong><span>教学仿真环境 · 本机部署</span></div></div></div>
+  <div className="metric-grid">{metrics.map(({label,value,unit,icon:Icon,color,threshold})=><section className={'metric '+color} key={label}><div className="metric-label"><span>{label}</span><Icon size={19}/></div><div className="metric-value">{value==null?'—':typeof value==='number'?value.toFixed(1):value}<small>{unit}</small></div><div className="metric-foot"><span className={'dot '+(!device?.online?'gray':'')}/>{!device?.online?'设备离线 · 显示最后读数':!current.valid?'采样异常 · 请检查设备':threshold?`演示阈值 ${threshold} · 持续 ${data.rules.hold_seconds}s`:'触发后立即进入火灾报警'}</div></section>)}</div>
+  <div className="grid-main"><Panel title="实时趋势" extra={<div className="legend"><span className="green">燃气</span><span className="amber">烟雾</span><span className="blue">温度</span><span className="muted">最近 90 条</span></div>}>{samples.length?<Chart data={samples} threshold={data.rules.gas_threshold}/>:<Empty text="等待设备上报，启动模拟器后自动更新"/>}<div className="panel-foot">燃气与烟雾为相对指标；温度单位为 °C。演示数值尚未经过实物标定。</div></Panel>
+  <Panel title="现场设备" extra={<button className="text-button" onClick={()=>navigate('devices')}>查看详情 <ArrowUpRight size={15}/></button>}><div className="device-visual"><div className="device-icon"><Radio size={38}/><span className={'dot '+(!device?.online?'gray':'')}/></div><strong>{device?.name||'等待设备注册'}</strong><span>{device?.location||'—'}</span><Badge value={device?.online?'succeeded':'offline'}>{device?.online?'设备在线':'设备离线'}</Badge></div><div className="key-values"><div><span><Wifi size={14}/> 数据来源</span><b>设备模拟器</b></div><div><span>最近上报</span><b>{device?.last_seen?new Date(device.last_seen).toLocaleTimeString('zh-CN',{hour12:false}):'尚未上报'}</b></div><div><span>本地报警</span><Badge value={current.local_alarm||'normal'}/></div></div></Panel></div>
+  <div className="grid-main"><Panel title="近期报警" extra={<button className="text-button" onClick={()=>navigate('alarms')}>全部报警 <ArrowUpRight size={15}/></button>}>{data.alarms.length?<div className="table-wrap"><table><thead><tr><th>事件类型</th><th>触发时间</th><th>状态</th><th>人工确认</th></tr></thead><tbody>{data.alarms.slice(0,4).map(a=><tr key={a.id}><td><strong>{a.kind==='gas'?'燃气异常':a.kind==='fire'?'火灾异常':a.kind==='offline'?'设备离线':'采样异常'}</strong><small>#{String(a.id).padStart(5,'0')} · {a.device_id}</small></td><td>{fmt(a.started_at)}</td><td><Badge value={a.status}/></td><td>{a.acknowledged_at?'已确认':'待确认'}</td></tr>)}</tbody></table></div>:<Empty/>}</Panel><Panel title="联动状态"><div className="actuator-list">{[['valve','燃气阀门'],['fan','排风装置'],['power','模拟电源'],['buzzer','声光报警']].map(([key,name])=><div key={key}><span>{name}</span><Badge value={device?.actuators[key]||'unknown'}>{device?.actuators[key]?({'open':'开启','closed':'关闭','on':'开启','off':'关闭'} as Record<string,string>)[device.actuators[key]]:'等待反馈'}</Badge></div>)}</div><div className="panel-foot">当前状态为模拟器反馈，不代表实物执行结果。</div></Panel></div>
+ </>;
+}

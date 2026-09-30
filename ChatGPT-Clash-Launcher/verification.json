@@ -1,0 +1,639 @@
+{
+  "Time": "2026-09-28T23:07:52",
+  "TestMainPid": 16436,
+  "Processes": [
+    {
+      "ProcessId": 16436,
+      "ParentProcessId": 29344,
+      "Name": "ChatGPT.exe"
+    },
+    {
+      "ProcessId": 22728,
+      "ParentProcessId": 16436,
+      "Name": "ChatGPT.exe"
+    },
+    {
+      "ProcessId": 13416,
+      "ParentProcessId": 22728,
+      "Name": "ChatGPT.exe"
+    },
+    {
+      "ProcessId": 12860,
+      "ParentProcessId": 16436,
+      "Name": "ChatGPT.exe"
+    },
+    {
+      "ProcessId": 29692,
+      "ParentProcessId": 16436,
+      "Name": "ChatGPT.exe"
+    },
+    {
+      "ProcessId": 14840,
+      "ParentProcessId": 16436,
+      "Name": "ChatGPT.exe"
+    },
+    {
+      "ProcessId": 13148,
+      "ParentProcessId": 16436,
+      "Name": "ChatGPT.exe"
+    },
+    {
+      "ProcessId": 6356,
+      "ParentProcessId": 16436,
+      "Name": "ChatGPT.exe"
+    },
+    {
+      "ProcessId": 24392,
+      "ParentProcessId": 16436,
+      "Name": "codex.exe"
+    },
+    {
+      "ProcessId": 10764,
+      "ParentProcessId": 24392,
+      "Name": "conhost.exe"
+    },
+    {
+      "ProcessId": 22968,
+      "ParentProcessId": 16436,
+      "Name": "codex-computer-use-swift.exe"
+    },
+    {
+      "ProcessId": 30736,
+      "ParentProcessId": 22968,
+      "Name": "conhost.exe"
+    },
+    {
+      "ProcessId": 27020,
+      "ParentProcessId": 16436,
+      "Name": "ChatGPT.exe"
+    },
+    {
+      "ProcessId": 27300,
+      "ParentProcessId": 16436,
+      "Name": "git.exe"
+    },
+    {
+      "ProcessId": 10288,
+      "ParentProcessId": 27300,
+      "Name": "conhost.exe"
+    },
+    {
+      "ProcessId": 13296,
+      "ParentProcessId": 27300,
+      "Name": "git.exe"
+    },
+    {
+      "ProcessId": 18048,
+      "ParentProcessId": 16436,
+      "Name": "ChatGPT.exe"
+    },
+    {
+      "ProcessId": 28196,
+      "ParentProcessId": 16436,
+      "Name": "ChatGPT.exe"
+    },
+    {
+      "ProcessId": 28444,
+      "ParentProcessId": 16436,
+      "Name": "ChatGPT.exe"
+    }
+  ],
+  "ProxySockets": [
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 65316,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 65158,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 64052,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 63998,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 63741,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 63165,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 62993,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 62772,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 62708,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 62235,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 62050,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 61469,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 61340,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 61254,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 60168,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 59599,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 59012,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 58741,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 57964,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 56536,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 56521,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 56241,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 56206,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 56164,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 55390,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 55158,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 55071,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 54897,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 54731,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 54257,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 53936,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 53238,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 52839,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 52485,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 51189,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 51158,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 50543,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 50260,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 49801,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    },
+    {
+      "OwningProcess": 29692,
+      "LocalPort": 49798,
+      "RemoteAddress": "127.0.0.1",
+      "RemotePort": 7897
+    }
+  ],
+  "ClashFlows": [
+    {
+      "host": "clients2.google.com",
+      "type": "HTTPS",
+      "sourcePort": "56206",
+      "upload": 2744,
+      "download": 7308
+    },
+    {
+      "host": "www.google.com",
+      "type": "HTTPS",
+      "sourcePort": "61254",
+      "upload": 3125,
+      "download": 4293
+    },
+    {
+      "host": "www.gstatic.com",
+      "type": "HTTPS",
+      "sourcePort": "57964",
+      "upload": 2516,
+      "download": 7010
+    },
+    {
+      "host": "ws.chatgpt.com",
+      "type": "HTTPS",
+      "sourcePort": "65158",
+      "upload": 3290,
+      "download": 5156
+    },
+    {
+      "host": "android.clients.google.com",
+      "type": "HTTPS",
+      "sourcePort": "55071",
+      "upload": 3713,
+      "download": 9269
+    },
+    {
+      "host": "ws.chatgpt.com",
+      "type": "HTTPS",
+      "sourcePort": "52485",
+      "upload": 3263,
+      "download": 5154
+    },
+    {
+      "host": "update.googleapis.com",
+      "type": "HTTPS",
+      "sourcePort": "59012",
+      "upload": 4542,
+      "download": 3198
+    },
+    {
+      "host": "chatgpt.com",
+      "type": "HTTPS",
+      "sourcePort": "63998",
+      "upload": 3060,
+      "download": 50637
+    },
+    {
+      "host": "www.google.com",
+      "type": "HTTPS",
+      "sourcePort": "53936",
+      "upload": 2581,
+      "download": 6840
+    },
+    {
+      "host": "clients2.google.com",
+      "type": "HTTPS",
+      "sourcePort": "54731",
+      "upload": 2712,
+      "download": 7352
+    },
+    {
+      "host": "chatgpt.com",
+      "type": "Tun",
+      "sourcePort": "61359",
+      "upload": 42817,
+      "download": 9081361
+    },
+    {
+      "host": "www.google.com.hk",
+      "type": "HTTPS",
+      "sourcePort": "55390",
+      "upload": 3163,
+      "download": 7297
+    },
+    {
+      "host": "cdn.auth0.com",
+      "type": "HTTPS",
+      "sourcePort": "54257",
+      "upload": 2632,
+      "download": 8433
+    },
+    {
+      "host": "dl.google.com",
+      "type": "HTTPS",
+      "sourcePort": "61340",
+      "upload": 2462,
+      "download": 20673
+    },
+    {
+      "host": "www.google.com.hk",
+      "type": "HTTPS",
+      "sourcePort": "53238",
+      "upload": 2823,
+      "download": 7300
+    },
+    {
+      "host": "mtalk.google.com",
+      "type": "HTTPS",
+      "sourcePort": "62235",
+      "upload": 2170,
+      "download": 5560
+    },
+    {
+      "host": "www.google.com.hk",
+      "type": "HTTPS",
+      "sourcePort": "62772",
+      "upload": 2953,
+      "download": 7294
+    },
+    {
+      "host": "redirector.gvt1.com",
+      "type": "HTTPS",
+      "sourcePort": "64052",
+      "upload": 2599,
+      "download": 7997
+    },
+    {
+      "host": "accounts.google.com",
+      "type": "HTTPS",
+      "sourcePort": "56536",
+      "upload": 2539,
+      "download": 6477
+    },
+    {
+      "host": "www.google.com",
+      "type": "HTTPS",
+      "sourcePort": "65316",
+      "upload": 2642,
+      "download": 6845
+    },
+    {
+      "host": "chat.openai.com",
+      "type": "HTTPS",
+      "sourcePort": "55158",
+      "upload": 132192,
+      "download": 8413
+    },
+    {
+      "host": "mtalk.google.com",
+      "type": "HTTPS",
+      "sourcePort": "56241",
+      "upload": 2138,
+      "download": 5560
+    },
+    {
+      "host": "chatgpt.com",
+      "type": "HTTPS",
+      "sourcePort": "59599",
+      "upload": 608139,
+      "download": 5964309
+    },
+    {
+      "host": "persistent.oaistatic.com",
+      "type": "HTTPS",
+      "sourcePort": "58741",
+      "upload": 2585,
+      "download": 6037
+    },
+    {
+      "host": "ws.chatgpt.com",
+      "type": "HTTPS",
+      "sourcePort": "61469",
+      "upload": 3268,
+      "download": 5162
+    },
+    {
+      "host": "www.google.com.hk",
+      "type": "HTTPS",
+      "sourcePort": "63741",
+      "upload": 2882,
+      "download": 7263
+    },
+    {
+      "host": "www.google.com",
+      "type": "HTTPS",
+      "sourcePort": "50260",
+      "upload": 2677,
+      "download": 6841
+    },
+    {
+      "host": "content-autofill.googleapis.com",
+      "type": "HTTPS",
+      "sourcePort": "60168",
+      "upload": 2849,
+      "download": 6420
+    },
+    {
+      "host": "accounts.google.com",
+      "type": "HTTPS",
+      "sourcePort": "51158",
+      "upload": 2603,
+      "download": 6477
+    },
+    {
+      "host": "android.clients.google.com",
+      "type": "HTTPS",
+      "sourcePort": "63165",
+      "upload": 3713,
+      "download": 9096
+    },
+    {
+      "host": "cdn.openai.com",
+      "type": "HTTPS",
+      "sourcePort": "62050",
+      "upload": 2581,
+      "download": 63330
+    },
+    {
+      "host": "ab.chatgpt.com",
+      "type": "HTTPS",
+      "sourcePort": "56521",
+      "upload": 7328,
+      "download": 722961
+    },
+    {
+      "host": "clients2.googleusercontent.com",
+      "type": "HTTPS",
+      "sourcePort": "62993",
+      "upload": 3293,
+      "download": 3891642
+    },
+    {
+      "host": "web-sandbox.oaiusercontent.com",
+      "type": "HTTPS",
+      "sourcePort": "50543",
+      "upload": 3043,
+      "download": 79539
+    },
+    {
+      "host": "chromewebstore.googleapis.com",
+      "type": "HTTPS",
+      "sourcePort": "62708",
+      "upload": 2620,
+      "download": 7476
+    },
+    {
+      "host": "dl.google.com",
+      "type": "HTTPS",
+      "sourcePort": "49801",
+      "upload": 2609,
+      "download": 7827
+    },
+    {
+      "host": "www.google.com.hk",
+      "type": "HTTPS",
+      "sourcePort": "56164",
+      "upload": 2858,
+      "download": 7301
+    },
+    {
+      "host": "r2---sn-aj2im9-5j.gvt1.com",
+      "type": "HTTPS",
+      "sourcePort": "54897",
+      "upload": 2762,
+      "download": 458275
+    },
+    {
+      "host": "clients2.googleusercontent.com",
+      "type": "HTTPS",
+      "sourcePort": "51189",
+      "upload": 3058,
+      "download": 12031019
+    },
+    {
+      "host": "chatgpt.com",
+      "type": "HTTPS",
+      "sourcePort": "49798",
+      "upload": 108409,
+      "download": 2294922
+    },
+    {
+      "host": "www.google.com",
+      "type": "HTTPS",
+      "sourcePort": "52839",
+      "upload": 2645,
+      "download": 6845
+    }
+  ],
+  "Window": [
+    {
+      "Id": 16436,
+      "MainWindowTitle": "ChatGPT",
+      "Responding": true
+    }
+  ]
+}

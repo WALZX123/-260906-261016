@@ -1,0 +1,6 @@
+InvalidOperation: 
+Line |
+   2 |  … "$root\Activate-App.ps1"; try { $id=[ClashLauncher.Activator]::Launch …
+     |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Unable to find type [ClashLauncher.Activator].
+

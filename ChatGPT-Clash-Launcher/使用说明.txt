@@ -1,0 +1,36 @@
+ChatGPT · Clash 代理启动
+
+日常使用
+1. 先运行 Clash Verge，确保节点可用。
+2. 双击桌面“ChatGPT（Clash代理）”。不要以管理员身份运行。
+3. 如果提示已运行，请保存工作，等 Agent 任务结束后在 ChatGPT 内正常退出，再双击入口。
+   启动器不会结束任何现有进程。
+
+自动发现
+每次读取已注册的 OpenAI.Codex 应用包清单，适应版本目录变化。
+每次核对 Clash/Mihomo 进程监听端口、运行配置、HTTP CONNECT 和 HTTPS 连通性。
+端口默认自动。Clash 改端口后，退出 ChatGPT 并重新使用入口即可。
+如必须手动指定，编辑同目录 launcher.json：将 "Port": 0 改为实际端口；0 恢复自动。
+不要移动或删除此启动器文件夹，否则桌面入口将失效。
+
+作用范围与验证边界
+使用 Windows 应用包激活传递 --proxy-server=http://127.0.0.1:实际端口 和 --disable-quic。
+未修改系统代理、全局环境变量、Clash 设置、WindowsApps 权限或永久执行策略。
+入口使用进程级 RemoteSigned 运行本地脚本，不使用 Bypass，不改变系统策略；组策略仍优先。
+已实测独立 ChatGPT 窗口启动、参数接收、网络子进程连接 Clash、Clash HTTPS 请求和收发字节。
+验证到 chatgpt.com、ws.chatgpt.com、chat.openai.com 等请求明确通过 HTTP/Mixed 代理。
+当前机器已有 Clash TUN 开启；部分非 Chromium 子进程仍经 TUN。本入口不保证所有 Agent、更新器、原生子进程在关闭 TUN 后也走 HTTP 代理；未使用未经验证的环境变量。
+
+故障信息
+logs 文件夹按运行时间保存版本、端口、激活结果、代理连接与错误详情。
+verification.json 保存独立测试的进程、套接字和 Clash 流量证据。
+应用未安装、Clash 不可用、HTTPS 错误、权限拒绝、激活失败均会提示。
+如策略禁止脚本，Windows 会阻止执行；不要修改企业策略或关闭安全功能。
+如出现 0x80073D28，先检查日志及 AppxManifest.xml；只有确认注册服务权限问题时，另行经 UAC 执行必要修复。启动器不会自动提权或修复。
+
+恢复原状
+正常退出通过新入口启动的 ChatGPT，再使用原桌面 ChatGPT 入口即可。
+原 ChatGPT.lnk 未改动；desktop-backup-* 另存了原快捷方式备份。
+删除桌面“ChatGPT（Clash代理）.lnk”即可停用，不需要重置系统代理。
+backup-* 保存了修改前已有的三个检测脚本；需要时复制回同名文件。
+确认不再需要日志后，可删除整个 ChatGPT-Clash-Launcher 文件夹。

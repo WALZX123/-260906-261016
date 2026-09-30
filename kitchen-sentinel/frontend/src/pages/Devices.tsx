@@ -1,0 +1,5 @@
+// 设备页：展示设备身份、在线状态、采样通道和当前执行机构状态。
+import {Cpu,Wifi,Radio,Link2} from 'lucide-react';
+import {Badge,fmt,Notice,Panel} from '../components';
+import type {Snapshot} from '../types';
+export function Devices({data}:{data:Snapshot}){return <><Notice>已配置设备节点使用独立令牌鉴权。当前只接入模拟器，真实硬件需按 kitchen.v1 协议适配。</Notice>{data.devices.map(d=><Panel key={d.id} title={d.name} extra={<Badge value={d.online?'succeeded':'offline'}>{d.online?'在线':'离线'}</Badge>}><div className="device-detail"><div className="device-big"><Cpu size={60}/><h3>{d.id}</h3><Badge>模拟设备</Badge></div><div className="detail-grid"><div><label>安装位置</label>{d.location}</div><div><label>固件标识</label>{d.firmware}</div><div><label>最近心跳</label>{fmt(d.last_seen)}</div><div><label>当前场景</label>{d.scenario}</div><div><label>传感器通道</label>燃气 / 烟雾 / 温度 / 火焰</div><div><label>执行机构</label>阀门 / 风扇 / 模拟电源 / 声光报警</div></div></div><div className="integration-flow"><span><Radio size={18}/>传感器与执行器</span><i>→</i><span><Cpu size={18}/>现场控制器</span><i>→</i><span><Wifi size={18}/>设备接口</span><i>→</i><span><Link2 size={18}/>监控平台</span></div><div className="panel-foot">设备令牌保存在本机配置中，不在页面展示。采样序号用于重复检测，设备时间与接收时间分别保存。</div></Panel>)}</>}

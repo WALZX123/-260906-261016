@@ -1,0 +1,19 @@
+# 工作区级缓存和 IDE 配置不属于项目源代码
+.idea/
+.pnpm-store/
+.ruff_cache/
+.pytest_cache/
+
+# Python、Node 和本地运行产生的文件
+**/.venv/
+**/node_modules/
+**/__pycache__/
+**/*.pyc
+**/.runtime/
+**/frontend/dist/
+**/*.log
+
+# 本地环境变量、测试覆盖率和构建缓存
+**/.env
+**/.coverage
+**/htmlcov/
