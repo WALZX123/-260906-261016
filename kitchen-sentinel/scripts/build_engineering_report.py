@@ -1,4 +1,9 @@
-"""Create the software engineering report used for the milestone review."""
+"""文件职责：中期检查说明文档的构建工具。
+主要功能：组织说明正文和表格，设置 Word 样式，输出软件工程分析报告。
+技术栈：Python、python-docx、WordprocessingML、表格样式。
+模块联动：读取本脚本中的报告内容并写入 docs；独立于后端采集与控制，不作为实机完成的证据。
+编写/修改日期（日志对应）：2026-10-14。
+"""
 
 from pathlib import Path
 from docx import Document
@@ -13,6 +18,9 @@ OUT = ROOT / "docs" / "厨房安全监测平台软件工程分析与中期检查
 
 
 def shade(cell, color):
+    """为 Word 表格单元格追加底色属性，供表头和交替行样式复用，不修改业务数据。
+    编写/修改日期（日志对应）：2026-10-14。
+    """
     props = cell._tc.get_or_add_tcPr()
     node = OxmlElement("w:shd")
     node.set(qn("w:fill"), color)
@@ -20,6 +28,9 @@ def shade(cell, color):
 
 
 def add_table(doc, headers, rows):
+    """按列标题和行数据建立 Word 表格，设置表头、字体与交替底色，再给后续正文保留间距。
+    编写/修改日期（日志对应）：2026-10-14。
+    """
     t = doc.add_table(rows=1, cols=len(headers))
     t.style = "Table Grid"
     t.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -46,12 +57,18 @@ def add_table(doc, headers, rows):
 
 
 def p(doc, text):
+    """向报告追加正文段落，统一段后间距和行距，供报告各章节复用。
+    编写/修改日期（日志对应）：2026-10-14。
+    """
     para = doc.add_paragraph(text)
     para.paragraph_format.space_after = Pt(6)
     para.paragraph_format.line_spacing = 1.15
 
 
 def bullets(doc, values):
+    """把文本序列逐项写入 Word 项目列表，并设置条目间距。
+    编写/修改日期（日志对应）：2026-10-14。
+    """
     for value in values:
         item = doc.add_paragraph(value, style="List Bullet")
         item.paragraph_format.space_after = Pt(3)

@@ -1,7 +1,8 @@
-"""数据库实体模型。
-
-时间字段统一按 UTC 的无时区形式落库，序列化给前端时再补上 ``Z``，
-这样 MySQL、Python 和浏览器之间不会发生隐式时区转换。
+"""文件职责：数据库实体与持久化结构。
+主要功能：定义用户、会话、设备、遥测、报警、命令、规则和审计实体及索引。
+技术栈：Python 类型注解、SQLAlchemy ORM、MySQL JSON/DateTime。
+模块联动：API 和 monitoring 读写实体，Alembic 按 Base 元数据迁移；时间统一按 UTC 存储，恢复不删除报警。
+编写/修改日期（日志对应）：2026-10-01。
 """
 
 from datetime import datetime, timezone
@@ -11,12 +12,16 @@ from backend.core.db import Base
 
 
 def utcnow():
-    """返回当前 UTC 时间，并去掉时区信息以匹配 MySQL DateTime。"""
+    """返回当前 UTC 时间，并去掉时区信息以匹配 MySQL DateTime。
+    编写/修改日期（日志对应）：2026-10-01。
+    """
     return datetime.now(timezone.utc).replace(tzinfo=None)
 
 
 class User(Base):
-    """平台用户及其角色。"""
+    """平台用户及其角色。
+    编写/修改日期（日志对应）：2026-10-01。
+    """
     __tablename__ = 'users'
     id: Mapped[int] = mapped_column(primary_key=True)
     username: Mapped[str] = mapped_column(String(64), unique=True)
@@ -26,7 +31,9 @@ class User(Base):
 
 
 class AuthSession(Base):
-    """登录会话；只保存会话令牌摘要和 CSRF 令牌。"""
+    """登录会话；只保存会话令牌摘要和 CSRF 令牌。
+    编写/修改日期（日志对应）：2026-10-01。
+    """
     __tablename__ = 'auth_sessions'
     token_hash: Mapped[str] = mapped_column(String(64), primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
@@ -35,7 +42,9 @@ class AuthSession(Base):
 
 
 class Device(Base):
-    """设备注册信息和最近一次设备状态。"""
+    """设备注册信息和最近一次设备状态。
+    编写/修改日期（日志对应）：2026-10-01。
+    """
     __tablename__ = 'devices'
     id: Mapped[str] = mapped_column(String(64), primary_key=True)
     name: Mapped[str] = mapped_column(String(100))
@@ -52,7 +61,9 @@ class Device(Base):
 
 
 class Telemetry(Base):
-    """设备遥测历史；设备启动编号与序号组成幂等键。"""
+    """设备遥测历史；设备启动编号与序号组成幂等键。
+    编写/修改日期（日志对应）：2026-10-01。
+    """
     __tablename__ = 'telemetry'
     __table_args__ = (UniqueConstraint('device_id', 'boot_id', 'sequence', name='uq_sample'),
                      Index('ix_telemetry_device_time', 'device_id', 'received_at'))
@@ -68,10 +79,14 @@ class Telemetry(Base):
     flame: Mapped[bool] = mapped_column(Boolean)
     valid: Mapped[bool] = mapped_column(Boolean, default=True)
     local_alarm: Mapped[str] = mapped_column(String(32), default='normal')
+    # 日志对应：2026-10-15。演练、待机、来源和原始量随历史保存，旧记录上下文为空。
+    sample_context: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
 
 class Alarm(Base):
-    """报警生命周期和可追溯时间线。"""
+    """报警生命周期和可追溯时间线。
+    编写/修改日期（日志对应）：2026-10-01。
+    """
     __tablename__ = 'alarms'
     __table_args__ = (Index('ix_alarm_device_status', 'device_id', 'status'),)
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -90,7 +105,9 @@ class Alarm(Base):
 
 
 class Command(Base):
-    """控制命令及其下发、回执、超时状态。"""
+    """控制命令及其下发、回执、超时状态。
+    编写/修改日期（日志对应）：2026-10-01。
+    """
     __tablename__ = 'commands'
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
     device_id: Mapped[str] = mapped_column(ForeignKey('devices.id'), index=True)
@@ -105,7 +122,9 @@ class Command(Base):
 
 
 class RuleConfig(Base):
-    """当前生效的报警规则版本。"""
+    """当前生效的报警规则版本。
+    编写/修改日期（日志对应）：2026-10-01。
+    """
     __tablename__ = 'rule_configs'
     id: Mapped[int] = mapped_column(primary_key=True)
     revision: Mapped[int] = mapped_column(Integer, default=1)
@@ -114,7 +133,9 @@ class RuleConfig(Base):
 
 
 class AuditLog(Base):
-    """关键操作审计记录。"""
+    """关键操作审计记录。
+    编写/修改日期（日志对应）：2026-10-01。
+    """
     __tablename__ = 'audit_logs'
     id: Mapped[int] = mapped_column(primary_key=True)
     actor: Mapped[str] = mapped_column(String(64))

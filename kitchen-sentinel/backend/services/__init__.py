@@ -1,1 +1,6 @@
-"""Application services coordinating persistence and domain rules."""
+"""文件职责：业务服务包入口。
+主要功能：组织数据库操作和领域规则之间的业务编排。
+技术栈：Python 包机制、SQLAlchemy。
+模块联动：monitoring 对接 API、领域函数与持久化实体。
+编写/修改日期（日志对应）：2026-10-01。
+"""

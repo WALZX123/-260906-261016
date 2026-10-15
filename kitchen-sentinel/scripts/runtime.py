@@ -1,7 +1,8 @@
-"""本地入口共用的运行时辅助函数。
-
-项目启动脚本始终使用 ``.venv`` 中的 Python，即使用户从 IDE 或系统
-Python 启动，也不会出现“一个终端能运行、另一个终端缺少依赖”的问题。
+"""文件职责：项目入口共同的解释器与路径准备。
+主要功能：识别项目 Python，必要时带原参数重新执行入口，避免依赖装在不同解释器。
+技术栈：Python os、sys、subprocess、pathlib。
+模块联动：bootstrap、后端、模拟器和 start.py 共用此模块；依据脚本位置定位项目，避免工作目录影响导入。
+编写/修改日期（日志对应）：2026-09-11。
 """
 
 from __future__ import annotations
@@ -19,7 +20,9 @@ PROJECT_PYTHON = PROJECT_ROOT / ".venv" / "Scripts" / "python.exe"
 
 
 def ensure_project_python() -> None:
-    """使用项目虚拟环境重新执行当前入口，并保留参数和退出码。"""
+    """使用项目虚拟环境重新执行当前入口，并保留参数和退出码。
+    编写/修改日期（日志对应）：2026-09-11。
+    """
 
     if not PROJECT_PYTHON.exists():
         raise SystemExit(

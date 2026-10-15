@@ -1,8 +1,8 @@
-"""总入口的子进程生命周期管理。
-
-Windows 的虚拟环境 Python 会再启动基础解释器，只结束 Popen 对象可能
-留下子进程。Job Object 将进程树绑定到入口句柄，强制结束入口时系统也
-会清理该树。管理器只管理自己创建的进程，不批量结束其他 Python 程序。
+"""文件职责：本次启动进程的生命周期管理。
+主要功能：登记子进程、建立 Windows Job、按顺序退出并回收本次进程树。
+技术栈：Python subprocess、signal、ctypes、Windows Job Object。
+模块联动：start.py 使用 ProcessSupervisor；入口结束时回收自己的后端和采集，避免残留占用端口或探针。
+编写/修改日期（日志对应）：2026-10-01。
 """
 from __future__ import annotations
 
@@ -14,9 +14,14 @@ from pathlib import Path
 
 
 class ProcessSupervisor:
-    """管理本次启动的进程，按逆序关闭，超时后强制回收。"""
+    """管理本次启动的进程，按逆序关闭，超时后强制回收。
+    编写/修改日期（日志对应）：2026-10-01。
+    """
 
     def __init__(self) -> None:
+        """初始化本次入口的子进程列表，并尝试建立 Windows 作业对象；受限环境中保留进程组回收方式。
+        编写/修改日期（日志对应）：2026-10-01。
+        """
         self.processes: list[subprocess.Popen] = []
         try:
             self._job = WindowsJob() if os.name == 'nt' else None
@@ -25,12 +30,16 @@ class ProcessSupervisor:
             self._job = None
 
     def spawn(self, command: list[str], cwd: Path, env: dict | None = None) -> subprocess.Popen:
-        """创建独立进程组并登记所有权，方便退出信号和强制清理。"""
+        """创建独立进程组并登记所有权，方便退出信号和强制清理。
+        编写/修改日期（日志对应）：2026-10-01。
+        """
         process = subprocess.Popen(
             command, cwd=cwd, env=env,
             creationflags=subprocess.CREATE_NEW_PROCESS_GROUP if os.name == 'nt' else 0,
             start_new_session=os.name != 'nt',
         )
+        # 日志对应：2026-10-01。重连前释放已结束进程的管理引用，避免长期重试无界积累。
+        self.processes = [item for item in self.processes if item.poll() is None]
         self.processes.append(process)
         if self._job:
             try:
@@ -41,7 +50,9 @@ class ProcessSupervisor:
         return process
 
     def close(self) -> None:
-        """先请求正常结束；等待超时后回收本次启动的进程树。"""
+        """先请求正常结束；等待超时后回收本次启动的进程树。
+        编写/修改日期（日志对应）：2026-10-01。
+        """
         for process in reversed(self.processes):
             if process.poll() is None:
                 with contextlib.suppress(OSError):
@@ -69,14 +80,22 @@ class ProcessSupervisor:
 
 
 class WindowsJob:
-    """封装 Windows Job Object，句柄关闭时结束其中所有进程。"""
+    """封装 Windows Job Object，句柄关闭时结束其中所有进程。
+    编写/修改日期（日志对应）：2026-10-01。
+    """
 
     def __init__(self) -> None:
         # 仅在 Windows 初始化，其他系统不需要加载 Win32 的结构与 DLL。
+        """定义与 Windows API 对齐的 ctypes 结构，创建关闭句柄时回收子进程的作业对象并保存原生句柄。
+        编写/修改日期（日志对应）：2026-10-01。
+        """
         import ctypes
         from ctypes import wintypes
 
         class BasicLimits(ctypes.Structure):
+            """与 Windows JOBOBJECT_BASIC_LIMIT_INFORMATION 对齐的 ctypes 结构，保存进程数量和退出限制。
+            编写/修改日期（日志对应）：2026-10-01。
+            """
             _fields_ = [
                 ('process_time', ctypes.c_longlong), ('job_time', ctypes.c_longlong),
                 ('flags', wintypes.DWORD), ('min_working_set', ctypes.c_size_t),
@@ -86,12 +105,18 @@ class WindowsJob:
             ]
 
         class IOCounters(ctypes.Structure):
+            """与 Windows IO_COUNTERS 对齐的 ctypes 字段，供扩展作业对象结构保持原生布局。
+            编写/修改日期（日志对应）：2026-10-01。
+            """
             _fields_ = [(name, ctypes.c_ulonglong) for name in (
                 'read_operations', 'write_operations', 'other_operations',
                 'read_bytes', 'write_bytes', 'other_bytes',
             )]
 
         class ExtendedLimits(ctypes.Structure):
+            """组合基础限制、I/O 与内存限制字段，作为 SetInformationJobObject 的参数结构。
+            编写/修改日期（日志对应）：2026-10-01。
+            """
             _fields_ = [
                 ('basic', BasicLimits), ('io', IOCounters),
                 ('process_memory', ctypes.c_size_t), ('job_memory', ctypes.c_size_t),
@@ -118,13 +143,17 @@ class WindowsJob:
             raise error
 
     def assign(self, process: subprocess.Popen) -> None:
-        """将刚启动的进程及其后续子进程加入作业对象。"""
+        """将刚启动的进程及其后续子进程加入作业对象。
+        编写/修改日期（日志对应）：2026-10-01。
+        """
         import ctypes
         if not self._api.AssignProcessToJobObject(self._handle, int(process._handle)):
             raise ctypes.WinError(ctypes.get_last_error())
 
     def close(self) -> None:
-        """释放作业句柄；重复调用也安全。"""
+        """释放作业句柄；重复调用也安全。
+        编写/修改日期（日志对应）：2026-10-01。
+        """
         if self._handle:
             self._api.CloseHandle(self._handle)
             self._handle = None

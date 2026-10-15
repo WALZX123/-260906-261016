@@ -1,0 +1,3 @@
+# Hardware test environment; install into the project .venv when a CMSIS-DAP
+# probe is connected. The application requirements remain unchanged.
+pyocd==0.45.1

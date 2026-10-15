@@ -1,7 +1,8 @@
-"""独立的虚拟边缘控制器。
-
-模拟器故意通过和真实设备相同的控制拉取、规则计算、遥测上报流程工作，
-这样中期演示可以覆盖设备离线、重试、幂等和命令回执，而不是直接修改数据库。
+"""文件职责：软件边缘控制器与场景模拟。
+主要功能：生成正常、燃气、火灾、故障和掉线场景，计算保护动作、保存状态并提交命令回执。
+技术栈：Python、HTTPX、JSON 原子写入、规则状态机。
+模块联动：调用 domain.rules 与设备 API，状态保存到本机运行目录；普通恢复不重开阀，火灾不启动普通风扇。
+编写/修改日期（日志对应）：2026-09-29。
 """
 import argparse
 import json
@@ -27,7 +28,9 @@ SCENARIOS = ('normal', 'gas', 'fire', 'spike', 'sensor_fault', 'offline', 'comma
 
 
 def load_state(path: Path) -> tuple[dict, dict]:
-    """读取本地执行状态；文件损坏时备份并从安全初始状态恢复。"""
+    """读取本地执行状态；文件损坏时备份并从安全初始状态恢复。
+    编写/修改日期（日志对应）：2026-09-29。
+    """
 
     if not path.exists():
         return {}, {}
@@ -52,7 +55,9 @@ def load_state(path: Path) -> tuple[dict, dict]:
 
 
 def save_state(path: Path, payload: dict) -> None:
-    """原子保存状态，避免程序中断时留下半截 JSON。"""
+    """原子保存状态，避免程序中断时留下半截 JSON。
+    编写/修改日期（日志对应）：2026-09-29。
+    """
 
     temporary = path.with_suffix(path.suffix + '.tmp')
     try:
@@ -63,7 +68,9 @@ def save_state(path: Path, payload: dict) -> None:
 
 
 def generate(scenario, elapsed, sequence):
-    """根据演示场景生成一组带边界的传感器采样。"""
+    """根据演示场景生成一组带边界的传感器采样。
+    编写/修改日期（日志对应）：2026-09-29。
+    """
     gas = 8 + math.sin(sequence / 6) * 1.8
     smoke = 6 + math.cos(sequence / 8) * 1.5
     temperature = 25 + math.sin(sequence / 13) * 0.6
@@ -82,7 +89,11 @@ def generate(scenario, elapsed, sequence):
 
 
 def main():
-    """运行设备主循环；网络中断时继续本地计算和保护动作。"""
+    """运行设备主循环；网络中断时继续本地计算和保护动作。
+    
+    轮询规则与命令、生成采样、计算本地保护并写本机状态，再提交遥测；网络异常时继续计算保护。
+    编写/修改日期（日志对应）：2026-09-29。
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument('--url', default='http://127.0.0.1:8000')
     parser.add_argument('--device', default='kitchen-001')

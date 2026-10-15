@@ -1,4 +1,9 @@
-"""登录、登出和用户管理接口。"""
+"""文件职责：用户登录与账号接口。
+主要功能：登录限流、会话创建与注销、当前用户查询和管理员建号。
+技术栈：Python、FastAPI、SQLAlchemy、Cookie、CSRF。
+模块联动：调用 dependencies 校验权限、core.security 计算摘要，读写 User 和 AuthSession 并追加审计。
+编写/修改日期（日志对应）：2026-09-30；2026-10-12（回归与边界修正）、2026-10-13（实时与联调优化）。
+"""
 
 import secrets
 import time
@@ -19,14 +24,18 @@ attempts = defaultdict(deque)
 
 
 def _client_key(request: Request) -> str:
-    """取得限流来源；测试客户端可能没有地址，不能因此让登录接口报错。"""
+    """取得限流来源；测试客户端可能没有地址，不能因此让登录接口报错。
+    编写/修改日期（日志对应）：2026-09-30。
+    """
 
     return request.client.host if request.client else 'unknown-client'
 
 
 @router.post('/login')
-def login(data: LoginInput, request: Request, response: Response, db=Depends(get_db)):
-    """创建八小时会话，并返回只用于后续写请求的 CSRF 令牌。"""
+def login(data: LoginInput, request: Request, response: Response, db=Depends(get_db, scope='function')):
+    """创建八小时会话，并返回只用于后续写请求的 CSRF 令牌。
+    编写/修改日期（日志对应）：2026-09-30。
+    """
     # 登录限流按来源地址做轻量保护；生产部署时可在反向代理再加一层全局限流。
     origin = request.headers.get('origin')
     allowed_origins = {item.strip() for item in settings().allowed_origins.split(',') if item.strip()}
@@ -54,27 +63,35 @@ def login(data: LoginInput, request: Request, response: Response, db=Depends(get
 
 @router.get('/me')
 def me(request: Request, user=Depends(current_user)):
-    """返回当前用户信息，前端刷新页面时用它恢复登录状态。"""
+    """返回当前用户信息，前端刷新页面时用它恢复登录状态。
+    编写/修改日期（日志对应）：2026-09-30。
+    """
     return {'username': user.username, 'role': user.role, 'csrf_token': request.state.session.csrf_token}
 
 
 @router.post('/logout')
-def logout(request: Request, response: Response, user=Depends(current_user), db=Depends(get_db)):
-    """删除服务端会话并让浏览器删除 Cookie。"""
+def logout(request: Request, response: Response, user=Depends(current_user), db=Depends(get_db, scope='function')):
+    """删除服务端会话并让浏览器删除 Cookie。
+    编写/修改日期（日志对应）：2026-09-30。
+    """
     db.delete(request.state.session)
     response.delete_cookie('ks_session')
     return {'ok': True}
 
 
 @router.get('/users')
-def users(user=Depends(admin), db=Depends(get_db)):
-    """列出用户基本资料，永远不返回密码摘要。"""
+def users(user=Depends(admin), db=Depends(get_db, scope='function')):
+    """列出用户基本资料，永远不返回密码摘要。
+    编写/修改日期（日志对应）：2026-09-30。
+    """
     return [{'id': u.id, 'username': u.username, 'role': u.role, 'active': u.active} for u in db.scalars(select(User))]
 
 
 @router.post('/users', status_code=201)
-def add_user(data: UserInput, user=Depends(admin), db=Depends(get_db)):
-    """由管理员创建新的平台用户。"""
+def add_user(data: UserInput, user=Depends(admin), db=Depends(get_db, scope='function')):
+    """由管理员创建新的平台用户。
+    编写/修改日期（日志对应）：2026-09-30。
+    """
     if db.scalar(select(User.id).where(User.username == data.username)):
         raise HTTPException(409, '用户名已存在')
     new = User(username=data.username, password_hash=hash_password(data.password), role=data.role)

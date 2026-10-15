@@ -1,7 +1,8 @@
-"""灶安系统总入口：准备数据库，托管 API、网页和设备模拟器。
-
-前端为 React + TypeScript，构建后的 dist 由 FastAPI 提供；数据库使用
-SQLAlchemy + MySQL。入口检查资源、端口和健康状态，并统一回收进程。
+"""文件职责：整套系统的本机启动入口。
+主要功能：检查资源和端口、准备数据库、启动 API 与实物采集或模拟器，统一退出并独立重试采集。
+技术栈：Python subprocess、Uvicorn、SQLAlchemy/MySQL、进程作业对象。
+模块联动：调用 runtime、ports、processes 和初始化脚本，启动 backend.main、gateway.swd 或 simulator.main；只管理本次创建的进程。
+编写/修改日期（日志对应）：2026-10-15（设备启用和双向联调修正）；2026-10-03；2026-10-12（回归与边界修正）、2026-10-13（实时与联调优化）。
 """
 from __future__ import annotations
 
@@ -18,6 +19,7 @@ import webbrowser
 from scripts.processes import ProcessSupervisor
 from scripts.ports import select_port
 from scripts.runtime import PROJECT_ROOT, ensure_project_python
+from scripts.instance import ProjectInstance
 
 
 # 前端退出按钮通过这个短生命周期标记通知总入口：后端收到请求后先优雅停机，
@@ -26,7 +28,9 @@ SHUTDOWN_MARKER = PROJECT_ROOT / '.runtime' / 'shutdown.request'
 
 
 def port_number(value: str) -> int:
-    """提前拒绝非法端口，避免在驱动或网络层出现难懂的错误。"""
+    """提前拒绝非法端口，避免在驱动或网络层出现难懂的错误。
+    编写/修改日期（日志对应）：2026-10-03。
+    """
     try:
         port = int(value)
     except ValueError as exc:
@@ -37,18 +41,27 @@ def port_number(value: str) -> int:
 
 
 def parse_args() -> argparse.Namespace:
-    """本地演示默认监听 127.0.0.1；其他模式由参数显式选择。"""
-    parser = argparse.ArgumentParser(description='启动灶安本地全栈演示系统')
+    """本地演示默认监听 127.0.0.1；其他模式由参数显式选择。
+    编写/修改日期（日志对应）：2026-10-03。
+    """
+    parser = argparse.ArgumentParser(description='启动灶安厨房安全监测系统')
     parser.add_argument('--host', default='127.0.0.1', help='监听 IPv4 地址或主机名')
     parser.add_argument('--port', type=port_number, default=8000, help='API 和网页端口，默认 8000')
     parser.add_argument('--skip-bootstrap', action='store_true', help='跳过已完成的数据库初始化')
     parser.add_argument('--no-simulator', action='store_true', help='只启动网页和 API')
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument('--hardware', dest='hardware', action='store_true', help='启动 STM32 实物采集（默认）')
+    mode.add_argument('--simulation', dest='hardware', action='store_false', help='显式启动独立模拟器')
+    parser.add_argument('--wifi-only', action='store_true', help='仅使用已配置的 Wi-Fi，无需保持调试器连接')
+    parser.set_defaults(hardware=True)
     parser.add_argument('--no-browser', action='store_true', help='启动后不自动打开浏览器')
     return parser.parse_args()
 
 
 def check_resources() -> None:
-    """启动前检查项目文件，端口选择由 ports 模块单独负责。"""
+    """启动前检查项目文件，端口选择由 ports 模块单独负责。
+    编写/修改日期（日志对应）：2026-10-03。
+    """
     if not (PROJECT_ROOT / 'frontend' / 'dist' / 'index.html').is_file():
         raise RuntimeError('前端构建不存在，请先在 frontend 目录执行构建')
     if not (PROJECT_ROOT / '.env').is_file():
@@ -56,7 +69,9 @@ def check_resources() -> None:
 
 
 def wait_for_backend(url: str, process: subprocess.Popen, timeout: float = 30.0) -> None:
-    """数据库可查询且后端完成启动后，才启动模拟器和打开浏览器。"""
+    """数据库可查询且后端完成启动后，才启动模拟器和打开浏览器。
+    编写/修改日期（日志对应）：2026-10-03。
+    """
     deadline = time.monotonic() + timeout
     # 本机健康检查不走用户代理，避免代理把 localhost 请求转发出去。
     opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
@@ -75,11 +90,27 @@ def wait_for_backend(url: str, process: subprocess.Popen, timeout: float = 30.0)
 
 
 def main() -> int:
-    """总入口；所有退出分支都经过 finally 释放本次启动的进程。"""
+    """总入口；所有退出分支都经过 finally 释放本次启动的进程。
+
+    依据 --hardware 选择 SWD 或模拟器，使用 ProcessSupervisor 管理进程；退出标记优先结束整组，采集失败独立重试。
+    编写/修改日期（日志对应）：2026-10-03。
+    """
     ensure_project_python()
     args = parse_args()
+    if args.wifi_only:
+        args.hardware = True
+    if args.no_simulator:
+        args.hardware = False
     local_host = '127.0.0.1' if args.host == '0.0.0.0' else args.host
     supervisor = None
+    # 取得锁之前不能删除全局退出标记，否则重复双击可能干扰正在退出的实例。
+    instance = ProjectInstance(PROJECT_ROOT / '.runtime')
+    if not instance.acquire():
+        url = instance.existing_url()
+        print('系统已经启动' + ('：' + url if url else '，正在准备访问地址') + '。本次复用原实例，不另开服务。', flush=True)
+        if url and not args.no_browser:
+            webbrowser.open(url)
+        return 0
     try:
         # 避免上一次异常退出留下的通知影响本次启动判断。
         SHUTDOWN_MARKER.unlink(missing_ok=True)
@@ -90,6 +121,7 @@ def main() -> int:
             print(f'{args.host}:{preferred_port} 暂不可用：{reason}；自动使用端口 {args.port}。', flush=True)
         # 只在端口最终确定后生成访问地址，保证浏览器、模拟器与来源白名单一致。
         base_url = f'http://{local_host}:{args.port}'
+        instance.record(base_url, 'hardware' if args.hardware else 'api' if args.no_simulator else 'simulation')
         supervisor = ProcessSupervisor()
         if not args.skip_bootstrap:
             print('[1/3] 检查数据库、执行迁移并准备演示数据…', flush=True)
@@ -118,7 +150,21 @@ def main() -> int:
         )
         wait_for_backend(base_url, backend)
         simulator = None
-        if not args.no_simulator:
+        # 日志对应：2026-09-30。硬件模式先注册独立节点，再使用已验证的 SWD 采集链路。
+        # 两种模式分别启动设备进程；退出按钮会通过同一管理器回收本次启动的进程。
+        if args.hardware:
+            registration = supervisor.spawn(
+                [sys.executable, '-m', 'scripts.register_hardware'], PROJECT_ROOT, child_env,
+            )
+            if registration.wait(timeout=30) != 0:
+                raise RuntimeError('STM32 设备注册失败，请检查数据库配置')
+            supervisor.spawn([sys.executable, '-m', 'gateway.server', '--api-base-url', base_url], PROJECT_ROOT, child_env)
+            print('[3/3] 启动设备通信网关（采样由设备启用页开启）…', flush=True)
+            if not args.wifi_only:
+                simulator = supervisor.spawn(
+                    [sys.executable, '-m', 'gateway.swd', '--api-base-url', base_url], PROJECT_ROOT, child_env,
+                )
+        elif not args.no_simulator:
             print('[3/3] 启动设备模拟器…', flush=True)
             simulator = supervisor.spawn(
                 [sys.executable, '-m', 'simulator.main', '--url', base_url], PROJECT_ROOT, child_env,
@@ -130,13 +176,30 @@ def main() -> int:
                     print('浏览器未自动打开，请手动访问上述地址。', flush=True)
             except webbrowser.Error:
                 print('浏览器未自动打开，请手动访问上述地址。', flush=True)
+        hardware_retry_at = 0.0
+        hardware_failures = 0
         while True:
-            for name, process in (('后端', backend), ('模拟器', simulator)):
+            # 日志对应：2026-10-01。退出标记直接结束整组进程，避免后台连接拖住退出并占用探针。
+            if SHUTDOWN_MARKER.exists():
+                return 0
+            for name, process in (('后端', backend), ('实物采集' if args.hardware else '模拟器', simulator)):
                 if process is not None and process.poll() is not None:
                     # 只有本机前端发出的退出请求才走正常成功分支；其他异常退出仍然需要提示。
                     if name == '后端' and SHUTDOWN_MARKER.exists():
                         return 0
+                    # 日志对应：2026-10-01 断线重连。采集失败时保留 PC 和报警服务，独立重试探针。
+                    if args.hardware and name == '实物采集':
+                        hardware_failures += 1
+                        delay = min(30, 2 ** min(hardware_failures, 5))
+                        hardware_retry_at = time.monotonic() + delay
+                        simulator = None
+                        print(f'实物采集断开，PC 服务保持运行，{delay} 秒后重连；超时将在报警中心升级人工。', flush=True)
+                        continue
                     raise RuntimeError(f'{name}已退出（退出码 {process.returncode}），正在停止其余进程')
+            if args.hardware and not args.wifi_only and simulator is None and time.monotonic() >= hardware_retry_at:
+                simulator = supervisor.spawn(
+                    [sys.executable, '-m', 'gateway.swd', '--api-base-url', base_url], PROJECT_ROOT, child_env,
+                )
             time.sleep(0.5)
     except KeyboardInterrupt:
         print('\n正在停止系统…', flush=True)
@@ -148,6 +211,7 @@ def main() -> int:
         if supervisor:
             supervisor.close()
         SHUTDOWN_MARKER.unlink(missing_ok=True)
+        instance.release()
 
 
 if __name__ == '__main__':

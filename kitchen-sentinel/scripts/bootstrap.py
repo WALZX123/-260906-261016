@@ -1,7 +1,8 @@
-"""初始化本地数据库并写入演示种子数据。
-
-脚本可以重复运行：数据库、迁移、管理员、设备和规则都采用幂等写法，
-密码只写入本机 ``.runtime/access.txt``，不会打印到终端或日志。
+"""文件职责：本地环境与数据库初始化入口。
+主要功能：准备配置、创建数据库、执行迁移、幂等写入管理员、设备和规则。
+技术栈：Python、SQLAlchemy、Alembic、随机凭据、文件持久化。
+模块联动：start.py 调用；复用 runtime 和 core 配置；账号仅保存在本机运行目录，原有业务数据不被清空。
+编写/修改日期（日志对应）：2026-09-11。
 """
 import os
 import re
@@ -20,7 +21,9 @@ sys.path.insert(0, str(ROOT))
 
 
 def prepare_env():
-    """首次运行时创建 .env，并为占位密钥生成随机值。"""
+    """首次运行时创建 .env，并为占位密钥生成随机值。
+    编写/修改日期（日志对应）：2026-09-11。
+    """
     path = ROOT / '.env'
     if not path.exists():
         path.write_text((ROOT / '.env.example').read_text(encoding='utf-8'), encoding='utf-8')
@@ -31,7 +34,9 @@ def prepare_env():
 
 
 def main():
-    """完成数据库创建、迁移和最小演示数据初始化。"""
+    """完成数据库创建、迁移和最小演示数据初始化。
+    编写/修改日期（日志对应）：2026-09-11。
+    """
     os.chdir(ROOT)
     prepare_env()
     from backend.core.config import settings

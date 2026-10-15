@@ -1,4 +1,9 @@
-"""本机监听端口选择，不终止已有服务，也不放宽套接字独占限制。"""
+"""文件职责：本机服务监听端口选择。
+主要功能：测试首选及后续候选端口，区分端口占用、系统限制和非法参数。
+技术栈：Python socket、errno、独占绑定。
+模块联动：start.py 调用并把最终端口同步给后端、网关或模拟器；不会结束已有服务来释放端口。
+编写/修改日期（日志对应）：2026-09-26。
+"""
 
 import errno
 import socket
@@ -12,6 +17,7 @@ def select_port(host: str, preferred: int, attempts: int = 20) -> tuple[int, str
     不能一律声称有进程占用，也不能结束其他服务来取得端口。返回首个
     可绑定端口和首选失败原因，让总入口向用户显示真实访问地址。
     该探测只能反映当前状态，探测后被其他进程抢占仍由 Uvicorn 报告。
+    编写/修改日期（日志对应）：2026-09-26。
     """
     first_reason = None
     for port in range(preferred, min(preferred + attempts, 65536)):

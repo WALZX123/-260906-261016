@@ -1,4 +1,9 @@
-"""设备协议 v1：遥测上报、控制拉取和命令回执。"""
+"""文件职责：设备上报与回执接口。
+主要功能：接收遥测、提供规则与待执行命令、记录设备执行结果。
+技术栈：FastAPI、Pydantic、SQLAlchemy、kitchen.v1 协议。
+模块联动：网关和模拟器调用本接口；遥测交给 services.monitoring，控制回执写入 Command。
+编写/修改日期（日志对应）：2026-09-30；2026-10-12（回归与边界修正）、2026-10-13（实时与联调优化）。
+"""
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
@@ -6,20 +11,24 @@ from backend.api.dependencies import device_auth
 from backend.core.db import get_db
 from backend.models import Command, Device, utcnow
 from backend.schemas import SampleInput, CommandResult
-from backend.services.monitoring import ingest, rules, serialize, audit
+from backend.services.monitoring import ingest, rules, serialize, audit, record_command_outcome
 
 router = APIRouter(prefix='/ingest/devices/{device_id}', tags=['设备协议 v1'])
 
 
 @router.post('/telemetry')
-def telemetry(device_id: str, packet: SampleInput, device=Depends(device_auth), db=Depends(get_db)):
-    """接收设备数据；业务层负责去重、状态更新和报警同步。"""
+def telemetry(device_id: str, packet: SampleInput, device=Depends(device_auth), db=Depends(get_db, scope='function')):
+    """接收已认证设备的遥测，交给 monitoring 去重、入库并更新报警；失败时事务回滚。
+    编写/修改日期（日志对应）：2026-09-30。
+    """
     return ingest(db, device_id, packet)
 
 
 @router.get('/control')
-def control(device_id: str, device=Depends(device_auth), db=Depends(get_db)):
-    """设备轮询规则和待执行命令，并将命令标记为已下发。"""
+def control(device_id: str, device=Depends(device_auth), db=Depends(get_db, scope='function')):
+    """设备轮询规则和待执行命令，并将命令标记为已下发。
+    编写/修改日期（日志对应）：2026-09-30。
+    """
     device = db.scalar(select(Device).where(Device.id == device_id).with_for_update())
     pending = list(db.scalars(select(Command).where(Command.device_id == device_id,
                               Command.status.in_(['pending', 'dispatched']), Command.expires_at >= utcnow())
@@ -35,8 +44,10 @@ def control(device_id: str, device=Depends(device_auth), db=Depends(get_db)):
 
 
 @router.post('/commands/{command_id}/result')
-def result(device_id: str, command_id: str, data: CommandResult, device=Depends(device_auth), db=Depends(get_db)):
-    """接收设备回执；已完成命令重复回执时返回原状态以保持幂等。"""
+def result(device_id: str, command_id: str, data: CommandResult, device=Depends(device_auth), db=Depends(get_db, scope='function')):
+    """接收设备回执；已完成命令重复回执时返回原状态以保持幂等。
+    编写/修改日期（日志对应）：2026-09-30。
+    """
     command = db.scalar(select(Command).where(Command.id == command_id).with_for_update())
     if not command or command.device_id != device_id:
         raise HTTPException(404, '命令不存在')
@@ -47,5 +58,6 @@ def result(device_id: str, command_id: str, data: CommandResult, device=Depends(
     command.status = 'succeeded' if data.success else 'failed'
     command.result = data.message
     command.completed_at = utcnow()
+    record_command_outcome(db, command)
     audit(db, device_id, 'command.result', command.id, status=command.status, result=data.message)
     return serialize(command)
