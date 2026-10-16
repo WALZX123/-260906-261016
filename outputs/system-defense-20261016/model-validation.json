@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-10-16T17:00:22.313397+08:00",
+  "reports": [
+    {
+      "period": "weekly",
+      "id": 11,
+      "status": "succeeded",
+      "prompt": "kitchen-expert-2026-10-16-v8"
+    },
+    {
+      "period": "monthly",
+      "id": 12,
+      "status": "succeeded",
+      "prompt": "kitchen-expert-2026-10-16-v8"
+    }
+  ],
+  "preferences_after_service_restart": {
+    "sound_enabled": true,
+    "desktop_enabled": true
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "packaged_at": "2026-10-15T20:16:08.135618+08:00",
+  "archive": "Keil工程_含CubeMX与中文常显_2026-10-15.zip",
+  "archive_sha256": "fddb78c07a8458fcf0834d2bff4e4b88e7076e1a18c312a44342c14fa565063d",
+  "archive_bytes": 57403705,
+  "included_files": 202,
+  "project_file_references": 116,
+  "source_and_header_dependencies": 116,
+  "browse_files": 32,
+  "all_references_inside_archive": true,
+  "private_credential_scan_passed": true,
+  "zip_integrity_passed": true,
+  "manifest_checksums_verified": true
+}

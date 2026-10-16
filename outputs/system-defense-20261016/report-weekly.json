@@ -1,0 +1,1076 @@
+{
+  "id": 11,
+  "period": "weekly",
+  "device_id": "stm32-001",
+  "starts_at": "2026-10-11T16:00:00Z",
+  "ends_at": "2026-10-18T16:00:00Z",
+  "created_at": "2026-10-16T09:00:12Z",
+  "created_by": "admin",
+  "facts": {
+    "device_id": "stm32-001",
+    "source": "hardware",
+    "window_start": "2026-10-11T16:00:00Z",
+    "window_end_exclusive": "2026-10-18T16:00:00Z",
+    "window_complete": false,
+    "window_start_local": "2026-10-12T00:00:00+08:00",
+    "window_end_local_exclusive": "2026-10-19T00:00:00+08:00",
+    "generated_at": "2026-10-16T09:00:03.148856Z",
+    "timezone": "Asia/Shanghai",
+    "statistics": {
+      "sample_count": 29786,
+      "peak_gas": 100.0,
+      "peak_smoke": 100.0,
+      "peak_temperature": 65.0,
+      "first_sample": "2026-10-14T14:50:09Z",
+      "last_sample": "2026-10-16T09:00:01Z",
+      "peak_gas_sampling": 76.0,
+      "peak_smoke_sampling": 100.0,
+      "peak_temperature_sampling": 30.7,
+      "standby_count": 17059,
+      "drill_count": 173,
+      "backfill_count": 644
+    },
+    "faults": [
+      {
+        "kind": "offline",
+        "count": 36,
+        "unacknowledged": 27
+      },
+      {
+        "kind": "fire",
+        "count": 27,
+        "unacknowledged": 24
+      },
+      {
+        "kind": "gas",
+        "count": 19,
+        "unacknowledged": 12
+      },
+      {
+        "kind": "supply_low",
+        "count": 3,
+        "unacknowledged": 2
+      },
+      {
+        "kind": "control_fault",
+        "count": 2,
+        "unacknowledged": 2
+      },
+      {
+        "kind": "sensor_fault",
+        "count": 1,
+        "unacknowledged": 0
+      }
+    ],
+    "events": [
+      {
+        "id": 117,
+        "kind": "offline",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:58:55Z",
+        "recovered_at": "2026-10-16T08:59:00Z",
+        "acknowledged": false,
+        "message": "设备超过心跳时限；当前读数为最后一次上报",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "connection_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 116,
+        "kind": "supply_low",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:53:22Z",
+        "recovered_at": "2026-10-16T08:54:49Z",
+        "acknowledged": true,
+        "message": "供气工况演示：开阀稳定后指标持续过低，供气不足或链路异常需人工核查",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "supply_issue",
+            "onsite_issue"
+          ],
+          "resolution": {
+            "at": "2026-10-16T08:55:28.634495Z",
+            "by": "admin",
+            "note": "111"
+          },
+          "onsite_report": {
+            "at": "2026-10-16T08:54:05.801151Z",
+            "by": "admin",
+            "note": "燃气泄露"
+          },
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 115,
+        "kind": "offline",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:52:58Z",
+        "recovered_at": "2026-10-16T08:53:02Z",
+        "acknowledged": false,
+        "message": "设备超过心跳时限；当前读数为最后一次上报",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "connection_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 114,
+        "kind": "gas",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:52:20Z",
+        "recovered_at": "2026-10-16T08:53:02Z",
+        "acknowledged": true,
+        "message": "燃气相对指标持续超过报警阈值",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "automatic_timeout",
+            "onsite_issue"
+          ],
+          "resolution": {
+            "at": "2026-10-16T08:55:06.288506Z",
+            "by": "admin",
+            "note": "111"
+          },
+          "onsite_report": {
+            "at": "2026-10-16T08:55:01.604255Z",
+            "by": "admin",
+            "note": "111"
+          },
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 113,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:51:46Z",
+        "recovered_at": "2026-10-16T08:52:26Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 112,
+        "kind": "offline",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:42:52Z",
+        "recovered_at": "2026-10-16T08:42:55Z",
+        "acknowledged": false,
+        "message": "设备超过心跳时限；当前读数为最后一次上报",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "connection_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 111,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:37:03Z",
+        "recovered_at": "2026-10-16T08:37:11Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "multiple",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 110,
+        "kind": "gas",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:37:03Z",
+        "recovered_at": "2026-10-16T08:37:11Z",
+        "acknowledged": false,
+        "message": "燃气相对指标持续超过报警阈值",
+        "test_scenario": "multiple",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 109,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:36:53Z",
+        "recovered_at": "2026-10-16T08:37:00Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "flame",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 108,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:36:42Z",
+        "recovered_at": "2026-10-16T08:36:49Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "temperature",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 107,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:36:17Z",
+        "recovered_at": "2026-10-16T08:36:38Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "smoke",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 106,
+        "kind": "gas",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:36:07Z",
+        "recovered_at": "2026-10-16T08:36:14Z",
+        "acknowledged": false,
+        "message": "燃气相对指标持续超过报警阈值",
+        "test_scenario": "gas",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 105,
+        "kind": "supply_low",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:35:03Z",
+        "recovered_at": "2026-10-16T08:35:18Z",
+        "acknowledged": false,
+        "message": "供气工况演示：开阀稳定后指标持续过低，供气不足或链路异常需人工核查",
+        "test_scenario": "supply_low",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "supply_issue"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 104,
+        "kind": "supply_low",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:33:24Z",
+        "recovered_at": "2026-10-16T08:33:45Z",
+        "acknowledged": false,
+        "message": "供气工况演示：开阀稳定后指标持续过低，供气不足或链路异常需人工核查",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "supply_issue"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 103,
+        "kind": "offline",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:32:26Z",
+        "recovered_at": "2026-10-16T08:33:04Z",
+        "acknowledged": false,
+        "message": "设备超过心跳时限；当前读数为最后一次上报",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "reconnect_timeout"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "connection_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 102,
+        "kind": "offline",
+        "status": "recovered",
+        "started_at": "2026-10-16T08:31:28Z",
+        "recovered_at": "2026-10-16T08:31:31Z",
+        "acknowledged": false,
+        "message": "设备超过心跳时限；当前读数为最后一次上报",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "connection_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 101,
+        "kind": "offline",
+        "status": "recovered",
+        "started_at": "2026-10-16T07:59:34Z",
+        "recovered_at": "2026-10-16T07:59:38Z",
+        "acknowledged": false,
+        "message": "设备超过心跳时限；当前读数为最后一次上报",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "connection_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 100,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-16T07:54:41Z",
+        "recovered_at": "2026-10-16T07:54:59Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 99,
+        "kind": "offline",
+        "status": "recovered",
+        "started_at": "2026-10-16T07:54:04Z",
+        "recovered_at": "2026-10-16T07:54:05Z",
+        "acknowledged": false,
+        "message": "设备超过心跳时限；当前读数为最后一次上报",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "connection_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 98,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-16T07:50:00Z",
+        "recovered_at": "2026-10-16T07:50:13Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 97,
+        "kind": "offline",
+        "status": "recovered",
+        "started_at": "2026-10-16T07:46:21Z",
+        "recovered_at": "2026-10-16T07:46:24Z",
+        "acknowledged": false,
+        "message": "设备超过心跳时限；当前读数为最后一次上报",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "connection_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 95,
+        "kind": "gas",
+        "status": "recovered",
+        "started_at": "2026-10-16T07:32:55Z",
+        "recovered_at": "2026-10-16T07:33:02Z",
+        "acknowledged": false,
+        "message": "燃气相对指标持续超过报警阈值",
+        "test_scenario": "multiple",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 96,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-16T07:32:55Z",
+        "recovered_at": "2026-10-16T07:33:02Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "multiple",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 94,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-16T07:32:46Z",
+        "recovered_at": "2026-10-16T07:32:53Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "flame",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 93,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-16T07:32:36Z",
+        "recovered_at": "2026-10-16T07:32:43Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "temperature",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 92,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-16T07:32:13Z",
+        "recovered_at": "2026-10-16T07:32:33Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "smoke",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 91,
+        "kind": "gas",
+        "status": "recovered",
+        "started_at": "2026-10-16T07:32:03Z",
+        "recovered_at": "2026-10-16T07:32:09Z",
+        "acknowledged": false,
+        "message": "燃气相对指标持续超过报警阈值",
+        "test_scenario": "gas",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 90,
+        "kind": "offline",
+        "status": "recovered",
+        "started_at": "2026-10-16T07:31:33Z",
+        "recovered_at": "2026-10-16T07:31:46Z",
+        "acknowledged": false,
+        "message": "设备超过心跳时限；当前读数为最后一次上报",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "connection_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 88,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-15T13:30:48Z",
+        "recovered_at": "2026-10-15T13:30:56Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "smoke",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire",
+            "onsite_issue"
+          ],
+          "resolution": null,
+          "onsite_report": {
+            "at": "2026-10-15T13:30:48.811042Z",
+            "by": "admin",
+            "note": "2026-10-15 低压模型烟雾注入联动核验，输出符合策略；记录转人工待现场核对"
+          },
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 86,
+        "kind": "control_fault",
+        "status": "recovered",
+        "started_at": "2026-10-15T13:26:20Z",
+        "recovered_at": "2026-10-15T13:26:36Z",
+        "acknowledged": false,
+        "message": "控制命令 open_valve 执行失败",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "execution_failed",
+            "inspection_required"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "inspection_required",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 85,
+        "kind": "gas",
+        "status": "recovered",
+        "started_at": "2026-10-15T13:26:04Z",
+        "recovered_at": "2026-10-15T13:26:36Z",
+        "acknowledged": false,
+        "message": "燃气相对指标持续超过报警阈值",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "automatic_timeout"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 84,
+        "kind": "offline",
+        "status": "recovered",
+        "started_at": "2026-10-15T13:24:19Z",
+        "recovered_at": "2026-10-15T13:25:00Z",
+        "acknowledged": false,
+        "message": "设备超过心跳时限；当前读数为最后一次上报",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "reconnect_timeout"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "connection_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 83,
+        "kind": "offline",
+        "status": "recovered",
+        "started_at": "2026-10-15T13:21:53Z",
+        "recovered_at": "2026-10-15T13:21:55Z",
+        "acknowledged": false,
+        "message": "设备超过心跳时限；当前读数为最后一次上报",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "connection_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 82,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-15T13:20:36Z",
+        "recovered_at": "2026-10-15T13:20:51Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 81,
+        "kind": "gas",
+        "status": "recovered",
+        "started_at": "2026-10-15T13:20:26Z",
+        "recovered_at": "2026-10-15T13:20:38Z",
+        "acknowledged": false,
+        "message": "燃气相对指标持续超过报警阈值",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 80,
+        "kind": "gas",
+        "status": "recovered",
+        "started_at": "2026-10-15T13:18:16Z",
+        "recovered_at": "2026-10-15T13:18:32Z",
+        "acknowledged": false,
+        "message": "燃气相对指标持续超过报警阈值",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 79,
+        "kind": "gas",
+        "status": "recovered",
+        "started_at": "2026-10-15T13:17:38Z",
+        "recovered_at": "2026-10-15T13:17:48Z",
+        "acknowledged": false,
+        "message": "燃气相对指标持续超过报警阈值",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 78,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-15T13:17:13Z",
+        "recovered_at": "2026-10-15T13:17:24Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 77,
+        "kind": "fire",
+        "status": "recovered",
+        "started_at": "2026-10-15T13:17:02Z",
+        "recovered_at": "2026-10-15T13:17:11Z",
+        "acknowledged": false,
+        "message": "烟雾、温度或火焰触发火灾报警规则",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [
+            "fire"
+          ],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": true,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      },
+      {
+        "id": 76,
+        "kind": "gas",
+        "status": "recovered",
+        "started_at": "2026-10-15T13:16:49Z",
+        "recovered_at": "2026-10-15T13:16:59Z",
+        "acknowledged": false,
+        "message": "燃气相对指标持续超过报警阈值",
+        "test_scenario": "",
+        "response": {
+          "actions": [],
+          "reasons": [],
+          "resolution": null,
+          "onsite_report": null,
+          "feedback_level": "control_outputs",
+          "manual_required": false,
+          "automatic_status": "signal_recovered",
+          "gas_manual_threshold": 80.0,
+          "automatic_timeout_seconds": 30,
+          "feedback_scope": "事件已恢复；当前输出不能代表触发时执行效果，恢复开阀不等于保护失败"
+        }
+      }
+    ],
+    "event_detail_limit": 40,
+    "limitations": [
+      "量程未标定，燃气输入为电位器；引脚与脉宽输出不是机械动作测量。",
+      "peak_*是包含演练的全部存档峰值；peak_*_sampling才是已标明非演练的实际采样峰值，旧未标记记录不充当实际采样。补传按采集时间归属。",
+      "没有持续在线率测量和完整事故数据，不生成虚假的在线率或事故概率。"
+    ]
+  },
+  "analysis": {
+    "provider": "deepseek-flash",
+    "generated_at": "2026-10-16T09:00:03.149925+00:00",
+    "prompt_version": "kitchen-expert-2026-10-16-v8",
+    "model_status": "succeeded",
+    "summary": "本统计窗口为北京时间2026年10月12日00:00至10月19日00:00，但窗口未完整，实际样本仅覆盖10月14日22:50至10月16日17:00，共29786条，其中待机17059条、演练173次、已补传入库644条。异常事件总量含演练：离线36次、火灾类27次、燃气19次、供气演示低值3次、控制故障2次、传感器故障1次；多数未人工确认。火灾类事件中可见多条明确为烟雾、温度、火焰或复合演练注入，属判定层数值注入，不代表真实火灾。控制故障与供气演示低值需优先核查。",
+    "evidence": [
+      "统计窗口为北京时间10月12日00:00至10月19日00:00，但窗口未完整，实际样本仅覆盖10月14日22:50至10月16日17:00，共29786条。",
+      "异常事件总量含演练：离线36次、火灾类27次、燃气19次、供气演示低值3次、控制故障2次、传感器故障1次；未确认数分别为27、24、12、2、2、0。",
+      "事件#86在10月15日21:26（北京时间）出现开阀控制命令执行失败，状态为需检查，未人工确认。",
+      "事件#104、#105、#116为供气演示低值异常，其中#116已人工确认并记录现场报告，但该指标为电位器演示，不是实测压力或流量。",
+      "事件#107至#113等火灾类事件标注为烟雾、温度、火焰或复合演练，属判定层数值注入，原始模数采集保持真实。",
+      "存档峰值燃气100、烟雾100、温度65包含演练；已标明非演练的实际采样峰值为燃气76、烟雾100、温度30.7。",
+      "事件#117离线于10月16日16:58（北京时间）恢复但未确认；#114燃气事件已确认并记录现场报告。",
+      "已补传入库644条，当前待补传积压需依据最新设备诊断判断，现有证据不足。"
+    ],
+    "hypotheses": [
+      "控制故障#86可能与开阀命令执行链路或舵机驱动异常有关，但缺少触发时执行器反馈与电源状态证据，属推测。",
+      "供气演示低值#104、#105、#116可能为演示电位器调节或链路异常，非实测漏气，证据缺口为无压力流量实测。",
+      "离线事件频繁可能与无线网络心跳超时或现场信号波动有关，但无持续在线率与网络质量数据，属推测。",
+      "火灾类事件多为演练注入，但部分未标注演练的火灾事件是否对应真实烟雾或温度变化，现有证据不足以区分。",
+      "多数事件未人工确认，可能与确认流程未闭环有关，但无操作日志佐证。"
+    ],
+    "recommendations": [
+      "优先核查控制故障#86：检查开阀命令输出通道、舵机供电与脉宽信号，确认是否存在执行器或驱动异常。",
+      "核查供气演示低值#104、#105、#116：确认电位器调节状态与采集链路，不将其作为漏气诊断，必要时补充压力流量实测。",
+      "核查离线事件#117及近期离线记录：检查无线网络心跳配置与现场信号，评估是否需要网络冗余。",
+      "对未确认的火灾类与燃气事件进行人工确认闭环：区分演练注入与真实采样，避免遗漏真实报警。",
+      "确认当前待补传积压：依据最新设备诊断判断补传队列，避免将已入库644条误认为待上传。",
+      "复核传感器故障1次的具体记录：确认热敏电阻或采集通道是否需校准或更换。"
+    ],
+    "uncertainties": [
+      "窗口未完整，实际样本仅覆盖约两天，不能代表整周运行状态。",
+      "无持续在线率与完整事故数据，不能计算在线率或事故概率。",
+      "事件详情仅提供有界子集，不能推算完整演练占比。",
+      "当前待补传积压数量未知，需依据最新设备诊断判断。",
+      "未标注演练的火灾与燃气事件是否对应真实物理变化，现有证据不足以区分。"
+    ],
+    "usage": {
+      "prompt_tokens": 9390,
+      "completion_tokens": 927,
+      "total_tokens": 10317,
+      "prompt_tokens_details": {
+        "cached_tokens": 256
+      },
+      "prompt_cache_hit_tokens": 256,
+      "prompt_cache_miss_tokens": 9134
+    },
+    "validation_notes": [
+      "evidence保留前八项"
+    ]
+  }
+}
